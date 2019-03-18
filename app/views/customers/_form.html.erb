@@ -1,0 +1,26 @@
+<%= form_with model: customer, local: true do |form| %>
+  <% if customer.errors.any? %>
+    <div class="alert alert-danger">
+      <p><b><%= customer.errors.count %>件のエラーがあります</b></p>
+
+      <ul>
+      <% customer.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="form-group">
+    <%= form.label :family_name %><br>
+    <%= form.text_field :family_name, class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= form.label :given_name %><br>
+    <%= form.text_field :given_name, class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= form.label :email %><br>
+    <%= form.text_field :email, class: "form-control" %>
+  </div>
+  <%= form.submit class: "btn btn-default" %>
+<% end %>
