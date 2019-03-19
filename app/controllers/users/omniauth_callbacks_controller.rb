@@ -6,15 +6,19 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     @user = User.where(provider: auth.provider, provider_uid: auth.uid).first
     unless @user
       # ユーザが無い場合は作成
+      puts "auth.extra.raw_info.name: #{auth.extra.raw_info.name}"
+      puts "auth.provider: #{auth.provider}"
+      puts "auth.credentials.token: #{auth.credentials.token}"
+      puts "auth.uid: #{auth.uid}"
       @user = User.create(
-          name:     auth.extra.raw_info.name,
+          family_name:     auth.extra.raw_info.name,
           email:    dummy_email(auth),
           provider: auth.provider,
           provider_token:    auth.credentials.token,
           provider_uid: auth.uid,
           password: Devise.friendly_token[0,20],
           encrypted_password:[*1..9, *'A'..'Z', *'a'..'z'].sample(10).join,
-          agreement: true
+          # agreement: true
       )
     end
 
@@ -41,7 +45,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
           provider_uid: auth.uid,
           password: Devise.friendly_token[0,20],
           encrypted_password:[*1..9, *'A'..'Z', *'a'..'z'].sample(10).join,
-          agreement: true
+          # agreement: true
       )
     end
 
@@ -59,10 +63,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     @user = User.where(provider: auth.provider, provider_uid: auth.uid).first
     unless @user
       # ユーザが無い場合は作成
-      puts "auth.info.name: #{auth.info.name}"
-      puts "auth.info.provider: #{auth.provider}"
-      puts "auth.credentials.token: #{auth.credentials.token}"
-      puts "auth.uid: #{auth.uid}"
       @user = User.create(
           family_name:     auth.info.name,
           given_name:     auth.info.name,
