@@ -1,5 +1,32 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
+    def google_oauth2
+    # You need to implement the method below in your model (e.g. app/models/user.rb)
+    auth = request.env["omniauth.auth"]
+    @user = User.where(provider: auth.provider, provider_uid: auth.uid).first
+    unless @user
+      # ユーザが無い場合は作成
+      @user = User.create(
+          family_name:     auth.extra.raw_info.name,
+          email:    dummy_email(auth),
+          provider: auth.provider,
+          provider_token:    auth.credentials.token,
+          provider_uid: auth.uid,
+          password: Devise.friendly_token[0,20],
+          encrypted_password:[*1..9, *'A'..'Z', *'a'..'z'].sample(10).join,
+          # agreement: true
+      )
+    end
+
+    if @user.persisted?
+      set_flash_message(:notice, :success, kind: "Google") if is_navigational_format?
+      sign_in_and_redirect @user, event: :authentication
+    else
+      session["devise.google_data"] = request.env["omniauth.auth"]
+      redirect_to new_user_registration_url
+    end
+  end
+
   def facebook
     # You need to implement the method below in your model (e.g. app/models/user.rb)
     auth = request.env["omniauth.auth"]
