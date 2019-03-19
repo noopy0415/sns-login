@@ -26,6 +26,7 @@
       </div>
     <% end %>
     <div class="social_login">
+      <%= button_to 'Googleでログイン', user_google_oauth2_omniauth_authorize_path, class: 'btn google' %>
       <%= button_to 'Facebookでログイン', user_facebook_omniauth_authorize_path, class: 'btn facebook' %>
       <%= button_to 'Twitterでログイン', user_twitter_omniauth_authorize_path, class: 'btn twitter' %>
       <%= button_to 'LINEでログイン', user_line_omniauth_authorize_path, class: 'btn line' %>
