@@ -261,7 +261,7 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, ENV['APP_ID', 'APP_SECRET'], scope: 'user,public_repo'
   config.omniauth :twitter, Rails.application.credentials.line[:twitter_key], Rails.application.credentials.line[:twitter_sec_key]
-  config.omniauth :facebook, Rails.application.credentials.line[:facebook_key], Rails.application.credentials.line[:facebook_sec_key]
+  config.omniauth :facebook, Rails.application.credentials.facebook[:app_id], Rails.application.credentials.facebook[:app_secret]
   config.omniauth :line, Rails.application.credentials.line[:channel_id], Rails.application.credentials.line[:channel_secret]
 
   # ==> Warden configuration
